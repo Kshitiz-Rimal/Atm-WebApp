@@ -1,0 +1,47 @@
+﻿@model ATMWebApp.Models.FormData;
+
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Display Welcome Text"] = "Welcome";
+    ViewData["Display sub Text"] = "Hello user, Please login to view our ATM services.";
+}
+
+<div class="login-form card text-center container mt-5 cen">
+    <h3 class="text-center m-3"> User Login </h3>
+    <form class="user-login-form m-3 me-5 ms-5" id="loginFormUser" asp-action="Index" method="post" asp-controller="Home">
+        <div class="form-content">
+            @* For account number *@
+            <label for="account_number">Account Number : </label>
+            <input type="text" id="accountN" asp-for="UName" name="UName"><br>
+            <span asp-validation-for="UName" class="text-danger"></span><br><br>
+
+            @* For pin code *@
+            <label for="pin_code">Pin Code :</label>
+            <input type="password" id="pinCode" asp-for="Pin" name="Pin"><br>
+            <span asp-validation-for="Pin" class="text-danger"></span><br><br>
+
+            <input type="hidden" id="password" asp-for = "Password" name ="Password" value="NaN" />
+        </div>
+
+        <div id="errorMessagesUser" class="error-messages text-center"></div>
+        @* Submit Button *@
+        <input class="login-button border-1 text-center" type="submit" value="Submit">
+    </form>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
+</div>@*For Login form which is common for user and admin*@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

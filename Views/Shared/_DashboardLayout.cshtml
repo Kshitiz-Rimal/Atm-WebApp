@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ATMWebApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ATMWebApp.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action=@ViewData["Navbar-Dashboard"]>
+                    <img src="~/images/verisk_tm_h_full-color_rgb.jpg" alt="" width="122" height="35" class="d-inline-block align-text-top">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse justify-content-end">
+                    <ul class="navbar-nav">
+                        <li class="nav-item m-1">
+                            <p>Hello, @ViewData["AccountName"]</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header> @*Navbar*@
+
+    <div class="container text-center mt-3">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div> @*to render other content which is unique to each tab*@
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; 2024 - ATMWebApp
+        </div>
+    </footer> @*For footer section*@
+
+    <scripts>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </scripts> @*Scripts for website*@
+</body>
+</html>

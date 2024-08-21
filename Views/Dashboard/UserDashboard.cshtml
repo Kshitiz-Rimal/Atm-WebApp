@@ -1,0 +1,172 @@
+﻿@model ATMWebApp.Models.User;
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Navbar-Dashboard"] = "UserDashboard";
+    ViewData["Title"] = "UserDashboard";
+}
+
+@if (ViewBag.User != null)
+{
+    var userData = (ATMWebApp.Models.User)ViewBag.User;
+    @if (userData.FirstLogin == "true")
+    {
+        <button type="button" class="btn btn-primary invisible" id="changePinButton" data-bs-toggle="modal" data-bs-target="#changePin">
+            Launch static backdrop modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="changePin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changePinLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="changePinLabel">First Login??</h1>
+                    </div>
+                    <div class="modal-body container-fluid w-100">
+                        <p>Please Change your pin.</p>
+                        @Html.Partial("_firstLoginPartialView", new ATMWebApp.Models.ChangePinModel { AccountNumber = userData.AccountNumber, NewPin = null, OldPin = null })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        ViewData["AccountName"] = userData.UserName;
+        <h1>@userData.UserName</h1>
+        <div class="container">
+            <div class="card text-center">
+                <div class="card-header">
+                    You can perform the following Actions
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title m-3">You can check your details, know your balance and even withdraw money from your account.</h5>
+                    <div class="row pt-3">
+                        <div class="col">
+                            <button class="btn-primary" id="viewDetailButton" data-bs-toggle="modal" data-bs-target="#userDetailModal"> View account Details </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn-primary" id="checkBalanceButton" data-bs-toggle="modal" data-bs-target="#userBalanceModal"> Check Balance </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn-primary" id="withdrawButton" data-bs-toggle="modal" data-bs-target="#withdrawModal"> Withdraw money </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="userDetailModal" tabindex="-1" aria-labelledby="userDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="userDetailModalLabel">Your Details: </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-1" id="modalBody">
+                        <label>User Name : @userData.UserName</label><br><br>
+                        <label>Your Balance : @userData.Balance</label><br><br>
+                        <label>Your Account Number : @userData.AccountNumber</label><br><br>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="userBalanceModal" tabindex="-1" aria-labelledby="userBalanceModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="userBalanceModalLabel">Your Details: </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-1">
+
+                        <label>Your Balance : @userData.Balance</label><br><br>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="withdrawModal" aria-hidden="true" aria-labelledby="withdrawModalLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="withdrawModalLabel">Please Choose an Option</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-1 w-100">
+
+                        <div class="row m-2">
+                            <div class="col w-100">
+                                <button class="btn-success amount-button" data-value1="500" data-value2="@userData.AccountNumber">Rs. 500</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn-success amount-button" data-value1="1000" data-value2="@userData.AccountNumber">Rs. 1,000</button>
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col">
+                                <button class="btn-success amount-button" data-value1="5000" data-value2="@userData.AccountNumber">Rs. 5,000</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn-success amount-button" data-value1="10000" data-value2="@userData.AccountNumber">Rs. 10,000</button>
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col">
+                                <button class="btn-success amount-button" data-value1="15000" data-value2="@userData.AccountNumber">Rs. 15,000</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn-success amount-button" data-value1="25000" data-value2="@userData.AccountNumber">Rs. 25,000</button>
+                            </div>
+                        </div>
+                        <button class="btn-success custom-amount rounded-3" id="amountButton" data-bs-target="#amountModal" data-bs-toggle="modal">Enter Amount</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="amountModal" tabindex="-1" aria-labelledby="amountModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="amountModalLabel">Enter Amount to withdraw </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-1 w-100">
+
+                        <form id="modalForm">
+                            <label for="inputField" class="form-label">Enter Your Amount: </label> <br>
+                            <input class="form-control w-100" type="number" name="inputField"  placeholder="Enter your amount" id="inputField" required /> <br /><br />
+                            <input hidden id="accountNumber" value="@userData.AccountNumber"/>
+                            <button class="btn-success rounded-3" type="submit">Enter Amount</button>
+                            <button class="btn-success rounded-3" id="customAmountButton" data-bs-target="#withdrawModal" data-bs-toggle="modal">Choose from menu</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successModalLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="successModalBody">
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<scripts>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/userDashboardLoad.js"> </script>
+</scripts>
+

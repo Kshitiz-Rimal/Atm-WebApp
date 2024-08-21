@@ -1,0 +1,118 @@
+﻿@import url('dashboard.css');
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a {
+    color: #0077cc;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+ 
+body {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.error-messages {
+    color: red;
+}
+
+.form-content {
+    text-align: right;
+}
+
+.modal-body{
+    width: fit-content;
+}
+
+.edit-form {
+    width: fit-content;
+}
+
+.edit-user-form {
+    text-align: center;
+}
+
+.form-content {
+    text-align: right;
+}
+
+.login-button {
+    border-radius: 5px;
+    box-shadow: 2px 2px #808080;
+    text-align: center;
+}
+
+    .login-button:hover {
+        animation: bubble 0.4s ease-out;
+        border-color: cornflowerblue;
+    }
+
+.modal-body.m1 {
+    text-align: left;
+}
+
+.amount-button {
+    border-radius: 10px;
+    width: 200px;
+}
+
+.error {
+    color: red;
+    font-size: 14px; /* Optional: Adjust font size */
+}

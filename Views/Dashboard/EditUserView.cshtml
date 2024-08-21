@@ -1,0 +1,61 @@
+﻿@model ATMWebApp.Models.EditUserModel
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Edit User";
+    ViewData["Navbar-Dashboard"] = "AdminDashboard";
+}
+
+@if (ViewBag.User != null)
+{
+    var userData = ViewBag.User;
+
+    <h3>You want to edit details of @userData.UserName [Leave empty for no change]</h3>
+
+    <div class="edit-form card text-center container mt-5">
+        <h3 class="text-center m-3"> Edit Details </h3>
+        <form class="edit-user-form m-3 me-5 ms-5" id="loginFormAdmin" asp-action="EditUserData" method="post" asp-controller="Dashboard">
+            <div class="form-content">
+                @*For new username*@
+                <label for="Customer_Name">New Customer Name : </label>
+                <input type="text" id="userN" asp-for="UserName" name="UserName" value="@userData.UserName" placeholder="New Custimer Name"><br>
+                <span asp-validation-for="UserName" class="text-danger"></span><br><br>
+                @* For new pin code *@
+                <label for="pin_code">New Pin :</label>
+                <input type="password" id="pin" name="Pin" asp-for="Pin" value="@userData.Password" placeholder="New Pin"><br>
+                <span class="text-danger" asp-validation-for="Pin"></span><br><br>
+
+                @* For Changing account Status*@
+                <label for="Option">Account Status : </label>
+                <select class="w-50" aria-label="Account Status" name="AccountStatus" asp-for="AccountStatus">
+                    <option selected>@userData.AccountStatus</option>
+                    <option value="Activated">Activate</option>
+                    <option value="Deactivated">Deactivate</option>
+                </select><br><br>
+
+                @*Send account number through hidden field*@
+                <input type="hidden" id="accountStatus" asp-for="AccountNumber" name="AccountNumber" value="@userData.AccountNumber" />
+
+                @*For adding balance*@
+                <label for="balance">Add Balance :</label>
+                <input type="number" name="Balance" value="0" asp-for="Balance" placeholder="Input amount you want to add" /><br>
+                <span class="text-danger" asp-validation-for="Balance"></span><br><br>
+            </div>
+
+            <div id="errorMessagesAdmin" class="error-messages text-center"></div>
+            @* Submit Button *@
+            <input class="login-button border-1 text-center" id="submitToLogin" type="submit" value="Submit">
+        </form>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" role="alert">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            </div>
+        }
+    </div>
+    @*For Login form which is common for user and admin*@
+}
