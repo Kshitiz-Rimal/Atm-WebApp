@@ -1,1 +1,245 @@
-[{"UserName":"Nitesh Khatiwada","AccountNumber":"1111111111","Balance":10000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Shubham Subedi","AccountNumber":"1112345678","Balance":1140000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Shushila Rimal","AccountNumber":"1122334455","Balance":10020000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Archana Adhikari","AccountNumber":"1122345678","Balance":1000000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Adbiral Poudel","AccountNumber":"1123456789","Balance":10000000,"AccountStatus":"Activated","Password":"1123","AccountType":"Customer","FirstLogin":"false"},{"UserName":"Rohit Maharjan","AccountNumber":"1223456790","Balance":10000000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Dikshya Poudel","AccountNumber":"1234456789","Balance":100000,"AccountStatus":"Activated","Password":"1344","AccountType":"Customer","FirstLogin":"false"},{"UserName":"Sashank Shrestha","AccountNumber":"1234567890","Balance":25500,"AccountStatus":"Activated","Password":"1234","AccountType":"Customer","FirstLogin":"false"},{"UserName":"Kshitiz Rimal","AccountNumber":"1245678903","Balance":12345,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Sushila Rimal","AccountNumber":"1293861233","Balance":100000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Diwash","AccountNumber":"1345678902","Balance":9000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"John Jackson","AccountNumber":"1682277381","Balance":1020000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"John Martin","AccountNumber":"1953177842","Balance":1000000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"John Martin","AccountNumber":"1986909247","Balance":1020000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Sushila Rimal","AccountNumber":"2222222222","Balance":10000000,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Rikesh","AccountNumber":"2345678901","Balance":52500,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Chris Brown","AccountNumber":"3292576419","Balance":1020000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Aayush Niraula","AccountNumber":"3456789012","Balance":507500,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Liam Henderson","AccountNumber":"4567890123","Balance":10000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Katie Anderson","AccountNumber":"5409333876","Balance":1020000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Olivia Monroe","AccountNumber":"5678901234","Balance":1500,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Tom Thomas","AccountNumber":"6520952636","Balance":1020000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Noah Carter","AccountNumber":"6789012345","Balance":9000,"AccountStatus":"Deactivated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Ava Bhattarai","AccountNumber":"7890123456","Balance":71000,"AccountStatus":"Activated","Password":"1344","AccountType":"Customer","FirstLogin":"false"},{"UserName":"Ethan Brooks","AccountNumber":"8901234567","Balance":7000,"AccountStatus":"Deactivated","Password":"8901","AccountType":"Customer","FirstLogin":"false"},{"UserName":"Isabella Reed","AccountNumber":"9012345678","Balance":46500,"AccountStatus":"Activated","Password":"1111","AccountType":"Customer","FirstLogin":"true"},{"UserName":"Kshitiz","AccountNumber":null,"Balance":0,"AccountStatus":null,"Password":"admin123","AccountType":"Admin","FirstLogin":"false"}]
+[
+  {
+    "UserName": "Nitesh Khatiwada",
+    "AccountNumber": "1111111111",
+    "Balance": 10000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Sushila Rimal",
+    "AccountNumber": "1111111199",
+    "Balance": 1000000000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Shubham Subedi",
+    "AccountNumber": "1112345678",
+    "Balance": 1140000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Shushila Rimal",
+    "AccountNumber": "1122334455",
+    "Balance": 10020000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Archana Adhikari",
+    "AccountNumber": "1122345678",
+    "Balance": 1000000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Adbiral Poudel",
+    "AccountNumber": "1123456789",
+    "Balance": 10000000,
+    "AccountStatus": "Activated",
+    "Password": "1123",
+    "AccountType": "Customer",
+    "FirstLogin": "false"
+  },
+  {
+    "UserName": "Rohit Maharjan",
+    "AccountNumber": "1223456790",
+    "Balance": 10000000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Dikshya Poudel",
+    "AccountNumber": "1234456789",
+    "Balance": 10000001,
+    "AccountStatus": "Activated",
+    "Password": "1344",
+    "AccountType": "Customer",
+    "FirstLogin": "false"
+  },
+  {
+    "UserName": "Sashank Shrestha",
+    "AccountNumber": "1234567890",
+    "Balance": 25500,
+    "AccountStatus": "Activated",
+    "Password": "1234",
+    "AccountType": "Customer",
+    "FirstLogin": "false"
+  },
+  {
+    "UserName": "Kshitiz Rimal",
+    "AccountNumber": "1245678903",
+    "Balance": 12345,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Sushila Rimal",
+    "AccountNumber": "1293861233",
+    "Balance": 100000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Diwash",
+    "AccountNumber": "1345678902",
+    "Balance": 9000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "John Jackson",
+    "AccountNumber": "1682277381",
+    "Balance": 1020000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "John Martin",
+    "AccountNumber": "1953177842",
+    "Balance": 1000000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "John Martin",
+    "AccountNumber": "1986909247",
+    "Balance": 1020000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Sushila Rimal",
+    "AccountNumber": "2222222222",
+    "Balance": 10000000,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Rikesh",
+    "AccountNumber": "2345678901",
+    "Balance": 52500,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Chris Brown",
+    "AccountNumber": "3292576419",
+    "Balance": 1020000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Aayush Niraula",
+    "AccountNumber": "3456789012",
+    "Balance": 507500,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Liam Henderson",
+    "AccountNumber": "4567890123",
+    "Balance": 10000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Katie Anderson",
+    "AccountNumber": "5409333876",
+    "Balance": 1020000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Olivia Monroe",
+    "AccountNumber": "5678901234",
+    "Balance": 1500,
+    "AccountStatus": "Activated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Tom Thomas",
+    "AccountNumber": "6520952636",
+    "Balance": 1020000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Noah Carter",
+    "AccountNumber": "6789012345",
+    "Balance": 9000,
+    "AccountStatus": "Deactivated",
+    "Password": "1111",
+    "AccountType": "Customer",
+    "FirstLogin": "true"
+  },
+  {
+    "UserName": "Ava Bhattarai",
+    "AccountNumber": "7890123456",
+    "Balance": 71000,
+    "AccountStatus": "Activated",
+    "Password": "1344",
+    "AccountType": "Customer",
+    "FirstLogin": "false"
+  },
+  {
+    "UserName": "Ethan Brooks",
+    "AccountNumber": "8901234567",
+    "Balance": 7000,
+    "AccountStatus": "Deactivated",
+    "Password": "8901",
+    "AccountType": "Customer",
+    "FirstLogin": "false"
+  },
+  {
+    "UserName": "Kshitiz",
+    "AccountNumber": null,
+    "Balance": 0,
+    "AccountStatus": null,
+    "Password": "admin123",
+    "AccountType": "Admin",
+    "FirstLogin": "false"
+  }
+]

@@ -1,6 +1,5 @@
 ﻿
-
-$(document).ready(function () {
+$(document).ready(function () { 
     // Custom validation method for Customer Name
     $.validator.addMethod("validCustomerName", function (value, element) {
         return /^[A-Z][a-zA-Z]* [A-Z][a-zA-Z]*$/.test(value); // Match first and last name with capital initials
@@ -73,7 +72,7 @@ $(document).ready(function () {
                         // Update the modal content with the returned partial view
                         $('#errorContainer').text(response.message).removeClass('d-none');
                         setTimeout(function () {
-                            
+
                             $('#errorContainer').addClass('d-none').text('');
                             modal.hide();
                         }, 2000);

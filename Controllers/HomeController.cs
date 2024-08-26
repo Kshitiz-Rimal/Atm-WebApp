@@ -9,11 +9,13 @@ namespace ATMWebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DBHelperModel _dbHelper;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DBHelperModel dbHelper)
         {
             _logger = logger;
+            _dbHelper = dbHelper;
         }
 
         [HttpGet]
@@ -34,7 +36,7 @@ namespace ATMWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                User? userData = UserAccountLogin(formData);
+                User? userData = AccountLogin(formData, "Customer");
 
                 if (userData != null && userData.AccountStatus == "Activated")
                 {
@@ -65,7 +67,7 @@ namespace ATMWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                User? userData = AdminAccountLogin(formData);
+                User? userData = AccountLogin(formData, "Admin");
 
                 if (userData != null)
                 {
@@ -86,14 +88,16 @@ namespace ATMWebApp.Controllers
             }
         }
 
-        private static User? UserAccountLogin(FormData formData)
+        private User? AccountLogin(FormData formData, string accountType)
         {
-            UserData userData = new CRUDUserData();
-            List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+            //UserData userData = new CRUDUserData();
+            //List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+            //User? user = users.Find(u => u.AccountNumber == formData.UName);
+            List<User> usersList = GetSearchResults(formData.UName);
 
-            User? user = users.Find(u => u.AccountNumber == formData.UName);
-            if (user != null)
+            if (usersList != null && accountType == "Customer")
             {
+                User? user = usersList.FirstOrDefault(u => u.AccountType.Equals("Admin", StringComparison.OrdinalIgnoreCase));
                 if (user.Password == formData.Pin)
                 {
                     return user;
@@ -105,19 +109,8 @@ namespace ATMWebApp.Controllers
             }
             else
             {
-                return null;
-            }
-        }
-
-        private static User? AdminAccountLogin(FormData formData)
-        {
-            UserData userData = new CRUDUserData();
-            List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
-
-            User? user = users.Find(u => u.UserName == formData.UName);
-            if (user != null)
-            {
-                if (user.Password == formData.Password)
+                User? user = usersList.FirstOrDefault(u => u.AccountType.Equals("Admin", StringComparison.OrdinalIgnoreCase));
+                if (user != null && user.Password == formData.Password)
                 {
                     return user;
                 }
@@ -126,10 +119,67 @@ namespace ATMWebApp.Controllers
                     return null;
                 }
             }
-            else
+        }
+
+        //private static User? AdminAccountLogin(FormData formData)
+        //{
+        //    UserData userData = new CRUDUserData();
+        //    List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+
+        //    User? user = users.Find(u => u.UserName == formData.UName);
+        //    if (user != null)
+        //    {
+        //        if (user.Password == formData.Password)
+        //        {
+        //            return user;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        private List<User> GetSearchResults(string searchValue)
+        {
+            //UserData userData = new CRUDUserData();
+            //List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+
+            List<User> users = [];
+            try
             {
-                return null;
+                using var reader = _dbHelper.SearchUser(searchValue);
+                while (reader.Read())
+                {
+                    users.Add(new User(
+                        userName: reader["UserName"].ToString(),
+                        accountNumber: reader["AccountNumber"].ToString(),
+                        balance: Convert.ToDouble(reader["Balance"]),
+                        accountStatus: reader["AccountStatus"].ToString(),
+                        password: reader["Password"].ToString(),
+                        accountType: reader["AccountType"].ToString(),
+                        firstLogin: reader["FirstLogin"].ToString()
+                    ));
+                }
             }
+            catch (Exception ex)
+            {
+                // Handle exception, e.g., log it or return an error view
+                ViewBag.ErrorMessage = $"An error occurred: {ex.Message}";
+            }
+            //List<User> newUserList = [];
+            //foreach (var user in users)
+            //{
+            //    if ((user.AccountType == "Customer" && user.UserName == searchValue) || (user.AccountType == "Customer" && user.AccountNumber == searchValue))
+            //    {
+            //        newUserList.Add(user);
+            //    }
+            //}
+            return users;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
