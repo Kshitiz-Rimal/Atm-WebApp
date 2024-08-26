@@ -1,7 +1,13 @@
+using ATMWebApp.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Register DBHelperModel with dependency injection
+builder.Services.AddScoped<DBHelperModel>(provider =>
+    new DBHelperModel("localhost", "ATM-WebApp-DB", "root", "admin123"));
 
 var app = builder.Build();
 
@@ -25,3 +31,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+

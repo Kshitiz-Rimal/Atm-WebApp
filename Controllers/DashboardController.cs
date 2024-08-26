@@ -9,8 +9,10 @@ using System.Reflection;
 
 namespace ATMWebApp.Controllers
 {
-    public class DashboardController : Controller
+    public class DashboardController(DBHelperModel dbHelper) : Controller
     {
+        private readonly DBHelperModel _dbHelper = dbHelper;
+
         [HttpGet]
         public IActionResult UserDashboard()
         {
@@ -136,7 +138,8 @@ namespace ATMWebApp.Controllers
                 string? currentUserJson = TempData["User"].ToString();
                 if (ValidateAccountNUmber(addUserDataModel))
                 {
-                    SaveNewCostumer(addUserDataModel);
+                    //SaveNewCostumer(addUserDataModel);
+                    _dbHelper.AddNewUser(addUserDataModel.CustomerName, addUserDataModel.AccountNumber, addUserDataModel.Balance);
                     List<User> allUsers = GetAllUsers();
                     User? currentUser = JsonConvert.DeserializeObject<User>(currentUserJson);
 
@@ -175,14 +178,21 @@ namespace ATMWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserData userData = new CRUDUserData();
-                List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
-                User oldUser = allUsers.Find(u => u.AccountNumber == changePinModel.AccountNumber);
-                allUsers.Remove(oldUser);
-                User user = new(oldUser.UserName, oldUser.AccountNumber, oldUser.Balance, oldUser.AccountStatus, changePinModel.NewPin, oldUser.AccountType, "false");
-                allUsers.Add(user);
-                userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
-                var userDataJson = JsonConvert.SerializeObject(user);
+                //UserData userData = new CRUDUserData();
+                //List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+                //User oldUser = allUsers.Find(u => u.AccountNumber == changePinModel.AccountNumber);
+                //allUsers.Remove(oldUser);
+                //User user = new(oldUser.UserName, oldUser.AccountNumber, oldUser.Balance, oldUser.AccountStatus, changePinModel.NewPin, oldUser.AccountType, "false");
+                //allUsers.Add(user);
+                //userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
+
+                
+                List<User> userList = GetSearchResults(changePinModel.AccountNumber);
+                User currentUser = userList[0];
+                _dbHelper.UpdateUserDetails(currentUser.AccountNumber, currentUser.UserName, 0, changePinModel.NewPin, currentUser.AccountStatus, "false");
+                userList = GetSearchResults(changePinModel.AccountNumber);
+                currentUser = userList[0];
+                var userDataJson = JsonConvert.SerializeObject(currentUser);
                 TempData["User"] = userDataJson;
                 return RedirectToAction("UserDashboard", "Dashboard");
             }
@@ -208,7 +218,10 @@ namespace ATMWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                SaveEditedCustomer(editUserModel);
+                List<User> thisUser = GetSearchResults(editUserModel.AccountNumber);
+                User currentUser = thisUser[0];
+                //SaveEditedCustomer(editUserModel);
+                _dbHelper.UpdateUserDetails(editUserModel.AccountNumber, editUserModel.UserName, editUserModel.Balance,editUserModel.Pin, editUserModel.AccountStatus, currentUser.FirstLogin);
                 return RedirectToAction("AdminDashboard", "Dashboard");
             }
             else
@@ -221,11 +234,12 @@ namespace ATMWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserData userData = new CRUDUserData();
-                List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
-                User userToBeDeleted = allUsers.Find(u => u.AccountNumber == accountNumber);
-                allUsers.Remove(userToBeDeleted);
-                userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
+                //UserData userData = new CRUDUserData();
+                //List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+                //User userToBeDeleted = allUsers.Find(u => u.AccountNumber == accountNumber);
+                //allUsers.Remove(userToBeDeleted);
+                //userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
+                _dbHelper.DeleteUser(accountNumber);
                 return RedirectToAction("AdminDashboard", "Dashboard");
             }
             else
@@ -234,10 +248,33 @@ namespace ATMWebApp.Controllers
             }
         }
 
-        private static List<User> GetAllUsers()
+        private List<User> GetAllUsers()
         {
-            UserData userData = new CRUDUserData();
-            List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+            //UserData userData = new CRUDUserData();
+            //List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+
+            List<User> users = [];
+            try
+            {
+                using var reader = _dbHelper.FetchEmployeeDetails();
+                while (reader.Read())
+                {
+                    users.Add(new User(
+                        userName: reader["UserName"].ToString(),
+                        accountNumber: reader["AccountNumber"].ToString(),
+                        balance: Convert.ToDouble(reader["Balance"]),
+                        accountStatus: reader["AccountStatus"].ToString(),
+                        password: reader["Password"].ToString(),
+                        accountType: reader["AccountType"].ToString(),
+                        firstLogin: reader["FirstLogin"].ToString()
+                    ));
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception, e.g., log it or return an error view
+                ViewBag.ErrorMessage = $"An error occurred: {ex.Message}";
+            }
             List<User> newUserList = [];
             foreach (var user in users)
             {
@@ -250,70 +287,101 @@ namespace ATMWebApp.Controllers
             return newUserList;
         }
 
-        private static List<User> GetSearchResults(string searchValue)
+        private List<User> GetSearchResults(string searchValue)
         {
-            UserData userData = new CRUDUserData();
-            List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
-            List<User> newUserList = [];
-            foreach (var user in users)
+            //UserData userData = new CRUDUserData();
+            //List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+
+            List<User> users = [];
+            try
             {
-                if ((user.AccountType == "Customer" && user.UserName == searchValue) || (user.AccountType == "Customer" && user.AccountNumber == searchValue))
+                using var reader = _dbHelper.SearchUser(searchValue);
+                while (reader.Read())
                 {
-                    newUserList.Add(user);
+                    users.Add(new User(
+                        userName: reader["UserName"].ToString(),
+                        accountNumber: reader["AccountNumber"].ToString(),
+                        balance: Convert.ToDouble(reader["Balance"]),
+                        accountStatus: reader["AccountStatus"].ToString(),
+                        password: reader["Password"].ToString(),
+                        accountType: reader["AccountType"].ToString(),
+                        firstLogin: reader["FirstLogin"].ToString()
+                    ));
                 }
             }
-            return newUserList;
+            catch (Exception ex)
+            {
+                // Handle exception, e.g., log it or return an error view
+                ViewBag.ErrorMessage = $"An error occurred: {ex.Message}";
+            }
+            //List<User> newUserList = [];
+            //foreach (var user in users)
+            //{
+            //    if ((user.AccountType == "Customer" && user.UserName == searchValue) || (user.AccountType == "Customer" && user.AccountNumber == searchValue))
+            //    {
+            //        newUserList.Add(user);
+            //    }
+            //}
+            return users;
         }
 
-        private static bool ValidateAccountNUmber(AddUserDataModel addUserDataModel)
+        private bool ValidateAccountNUmber(AddUserDataModel addUserDataModel)
         {
-            UserData userData = new CRUDUserData();
-            List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
-            User? user = users.Find(u => u.AccountNumber == addUserDataModel.AccountNumber);
+            //UserData userData = new CRUDUserData();
+            //List<User> users = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+            //User? user = users.Find(u => u.AccountNumber == addUserDataModel.AccountNumber);
+            List<User> users = GetSearchResults(addUserDataModel.AccountNumber);
 
-            if (user != null)
-            {
-                return false;
-            }
-            else
+            if (users.Count == 0)
             {
                 return true;
             }
+            else
+            {
+                return false;
+            }
         }
 
-        private static void SaveNewCostumer(AddUserDataModel addUserDataModel)
-        {
-            UserData userData = new CRUDUserData();
-            User user = new(addUserDataModel.CustomerName, addUserDataModel.AccountNumber, double.Parse(addUserDataModel.Balance), "Activated", "1111", "Customer", "true");
-            userData.AddUser(user, "wwwroot/Json/UserDetails.json");
+        //private static void SaveNewCostumer(AddUserDataModel addUserDataModel)
+        //{
+        //    UserData userData = new CRUDUserData();
+        //    User user = new(addUserDataModel.CustomerName, addUserDataModel.AccountNumber, double.Parse(addUserDataModel.Balance), "Activated", "1111", "Customer", "true");
+        //    userData.AddUser(user, "wwwroot/Json/UserDetails.json");
 
-        }
+        //}
 
-        private static void SaveEditedCustomer(EditUserModel editUserModel)
-        {
-            UserData userData = new CRUDUserData();
-            List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
-            User oldUser = allUsers.Find(u => u.AccountNumber == editUserModel.AccountNumber);
-            allUsers.Remove(oldUser);
-            double newBalance = oldUser.Balance + editUserModel.Balance;
-            User user = new(editUserModel.UserName, editUserModel.AccountNumber, newBalance, editUserModel.AccountStatus, editUserModel.Pin, oldUser.AccountType, oldUser.FirstLogin);
-            allUsers.Add(user);
-            userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
-        }
+        //private static void SaveEditedCustomer(EditUserModel editUserModel)
+        //{
+        //    UserData userData = new CRUDUserData();
+        //    List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+        //    User oldUser = allUsers.Find(u => u.AccountNumber == editUserModel.AccountNumber);
+        //    allUsers.Remove(oldUser);
+        //    double newBalance = oldUser.Balance + editUserModel.Balance;
+        //    User user = new(editUserModel.UserName, editUserModel.AccountNumber, newBalance, editUserModel.AccountStatus, editUserModel.Pin, oldUser.AccountType, oldUser.FirstLogin);
+        //    allUsers.Add(user);
+        //    userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
+        //}
 
         private string ValidateWithdrawAmount(string withdrawAmount, string accountNumber)
         {
-            UserData userData = new CRUDUserData();
-            List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
-            User currentUser = allUsers.Find(u => u.AccountNumber == accountNumber);
-            allUsers.Remove(currentUser);
+            //UserData userData = new CRUDUserData();
+            //List<User> allUsers = userData.LoadUserData("wwwroot/Json/UserDetails.json");
+            //User currentUser = allUsers.Find(u => u.AccountNumber == accountNumber);
+            //allUsers.Remove(currentUser);
+            List<User> userList = GetSearchResults(accountNumber);
+            User currentUser = userList[0];
             if (currentUser.Balance > double.Parse(withdrawAmount) && currentUser.Balance - double.Parse(withdrawAmount) >= 1000)
             {
-                double newBalance = currentUser.Balance - double.Parse(withdrawAmount);
-                User user = new(currentUser.UserName, currentUser.AccountNumber, newBalance, currentUser.AccountStatus, currentUser.Password, currentUser.AccountType, currentUser.FirstLogin);
-                allUsers.Add(user);
-                userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
-                TempData["User"] = JsonConvert.SerializeObject(user);
+                //double newBalance = currentUser.Balance - double.Parse(withdrawAmount);
+                //User user = new(currentUser.UserName, currentUser.AccountNumber, newBalance, currentUser.AccountStatus, currentUser.Password, currentUser.AccountType, currentUser.FirstLogin);
+                //allUsers.Add(user);
+                //userData.SaveUserData(allUsers, "wwwroot/Json/UserDetails.json");
+                //TempData["User"] = JsonConvert.SerializeObject(user);
+                double newBalance = 0 - double.Parse(withdrawAmount);
+                _dbHelper.UpdateUserDetails(currentUser.AccountNumber, currentUser.UserName, newBalance, currentUser.Password, currentUser.AccountStatus, currentUser.FirstLogin);
+                userList = GetSearchResults(accountNumber);
+                currentUser = userList[0];
+                TempData["User"] = JsonConvert.SerializeObject(currentUser);
                 return "success";
             }
             else if (currentUser.Balance > double.Parse(withdrawAmount) && currentUser.Balance - double.Parse(withdrawAmount) < 1000)
